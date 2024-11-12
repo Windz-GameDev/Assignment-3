@@ -5,7 +5,7 @@ I completed this project while taking the COP6616 Parallel Computing class at th
 
 ## Projects Overview
 
-1. Answer general questions about Parallel Computing. There is no source code for this question.
+### 1. Answer general questions about Parallel Computing. There is no source code for this question.
 
 ### 2. Euclidean Distance Calculation
 
