@@ -14,8 +14,8 @@
 #define NUM_RUNS 10 // Number of times to run each test for averaging
 
 // Define global variables
-const int sizes[] = {10000, 50000, 100000, 500000, 1000000, 10000000}; // Array of different sizes to test
-int numSizes = sizeof(sizes) / sizeof(sizes[0]);                       // Length of sizes array
+const int sizes[] = {10000, 100000, 1000000, 10000000, 100000000, 1000000000}; // Array of different sizes to test
+int numSizes = sizeof(sizes) / sizeof(sizes[0]);                               // Length of sizes array
 
 double *hostA; // First point coordinates
 double *hostB; // Second point coordinates
@@ -186,8 +186,8 @@ int main()
             cudaMemcpy(d_A, hostA, sizeof(double) * size, cudaMemcpyHostToDevice);
             cudaMemcpy(d_B, hostB, sizeof(double) * size, cudaMemcpyHostToDevice);
 
-            // Set block to 256, a multiple of the fixed size of warps
-            int blockSize = 256;
+            // Set block to max threads per block, a multiple of the fixed size of warps
+            int blockSize = props.maxThreadsPerBlock;
 
             // Calculate to ensure all elements are processed even if size is not a multiple of blockSize
             int numBlocks = (size + blockSize - 1) / blockSize;
