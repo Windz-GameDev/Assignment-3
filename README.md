@@ -20,7 +20,7 @@ This project implements a CUDA program to compute the Euclidean distance between
 - **Device Information:** Prints the number of CUDA-enabled devices and at least three interesting properties of Device 0, including the device name, maximum threads per block, and maximum grid size.
 - **Initialization:** Host arrays are initialized with random integers within a small range (0 to 99).
 - **Data Transfer:** Uses `cudaMemcpy` to copy host input arrays to the device.
-- **Kernel Execution:** Calls a CUDA kernel that computes the square of the difference of the components for each dimension, performs a parallel reduction to sum these values, and finally takes the square root of the sum to compute the Euclidean distance.
+- **Kernel Execution:** Calls a CUDA kernel that computes the square of the difference of the components for each dimension, performs a parallel reduction to sum these values across each block. Sums the partial sums of each block on the CPU, and then finally takes the square root of the sum to compute the Euclidean distance.
 - **Performance Analysis:** Runs experiments using varying sizes of inputs. Graphs and results can be find in the analysis pdf.
 
 ### Dependencies
