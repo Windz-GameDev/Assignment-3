@@ -73,7 +73,7 @@ This project implements a CUDA program to convert a color image to grayscale usi
 #### Implementation Details:
 
 - **Parallelism:** Each pixel conversion is independent, allowing for massive parallelism on the GPU.
-- **Thread Blocks:** Utilizes 32x32 thread blocks for efficient GPU utilization.
+- **Thread Blocks:** Utilizes 32x32 thread blocks for efficient GPU utilization if max thread per block is 1024 on your hardware.
 - **Memory Coalescing:** Ensures that RGB values are accessed in a coalesced manner, improving memory access performance.
 - **Timing Measurements:** Converts timing measurements to milliseconds for precise comparison between CPU and GPU execution times.
 
@@ -130,7 +130,7 @@ This project implements matrix multiplication using GPU/CUDA. The program is des
     - **Global Index Calculation:** Utilizes block and thread indices to compute the global row and column for each thread.
     - **Edge Case Handling:** Includes bounds checking to prevent out-of-bounds memory access.
   - **Block and Grid Dimensions:**
-    - **Block Size:** Uses a 32x32 block size to optimize for GPU architecture (total of 1024 threads per block).
+    - **Block Size:** Uses a 32x32 block size to optimize for GPU architecture (if you have a total of 1024 threads per block for your hardware).
     - **Grid Size:** Calculated based on matrix size and block dimensions to ensure coverage of the entire matrix.
 - **Performance Results:**
   - Observes that GPU speedup increases with matrix size.
