@@ -1,11 +1,14 @@
 # CUDA Programming Projects
 
 This repository contains several CUDA programming projects designed to demonstrate the performance benefits of GPU computing over traditional CPU implementations. Each project focuses on a specific computational task, showcasing the use of CUDA for parallel processing.
-I completed this project while taking the COP6616 Parallel Computing class at the University of North Florida.
+
+**Note:** I completed this project while taking the COP6616 Parallel Computing class at the University of North Florida.
 
 ## Projects Overview
 
-### 1. Answer general questions about Parallel Computing. There is no source code for this question.
+### 1. Answer general questions about Parallel Computing.
+
+There is no source code for this question. Answers are provided in **Assignment_3_Analysis.pdf** located in the root directory.
 
 ### 2. Euclidean Distance Calculation
 
@@ -13,11 +16,12 @@ This project implements a CUDA program to compute the Euclidean distance between
 
 #### Key Features:
 
-- Dynamically allocated arrays for both host and device.
-- Prints the number of CUDA-enabled devices and properties of Device 0.
-- Initializes host arrays with random numbers.
-- Uses a CUDA kernel to compute squared differences and perform parallel reduction.
-- Analyzes speedup provided by the GPU implementation over varying input sizes.
+- **Dynamic Memory Allocation:** Arrays for both host and device are dynamically allocated. Host arrays are allocated using `malloc`, and device arrays using `cudaMalloc`.
+- **Device Information:** Prints the number of CUDA-enabled devices and at least three interesting properties of Device 0, including the device name, maximum threads per block, and maximum grid size.
+- **Initialization:** Host arrays are initialized with random integers within a small range (0 to 99).
+- **Data Transfer:** Uses `cudaMemcpy` to copy host input arrays to the device.
+- **Kernel Execution:** Calls a CUDA kernel that computes the square of the difference of the components for each dimension, performs a parallel reduction to sum these values, and finally takes the square root of the sum to compute the Euclidean distance.
+- **Performance Analysis:** Runs experiments using varying sizes of inputs. Graphs and results can be find in the analysis pdf.
 
 ### Dependencies
 
@@ -61,17 +65,17 @@ This project implements a CUDA program to convert a color image to grayscale usi
 
 #### Key Features:
 
-- Uses PyCUDA for GPU implementation
-- Implements the Colorimetric method (weighted RGB conversion)
-- Compares performance between GPU and CPU implementations
-- Includes original and resulting images for comparison
+- **PyCUDA Implementation:** Uses PyCUDA for the GPU implementation, making it accessible and easier to integrate with Python libraries.
+- **Colorimetric Method:** Implements the standard Colorimetric method (weighted RGB conversion) for accurate grayscale conversion.
+- **Performance Comparison:** Compares execution times between GPU and CPU implementations to evaluate speedup.
+- **Image Handling:** Works with multiple image types as input and outputs the grayscale images for visual comparison.
 
 #### Implementation Details:
 
-- Uses 32x32 thread blocks for efficient GPU utilization
-- Implements memory coalescing for improved performance
-- Handles images of arbitrary dimensions
-- Converts timing measurements to milliseconds for precise comparison
+- **Parallelism:** Each pixel conversion is independent, allowing for massive parallelism on the GPU.
+- **Thread Blocks:** Utilizes 32x32 thread blocks for efficient GPU utilization.
+- **Memory Coalescing:** Ensures that RGB values are accessed in a coalesced manner, improving memory access performance.
+- **Timing Measurements:** Converts timing measurements to milliseconds for precise comparison between CPU and GPU execution times.
 
 #### Dependencies:
 
@@ -109,12 +113,62 @@ This project implements matrix multiplication using GPU/CUDA. The program is des
 
 #### Key Features:
 
-- Supports floating-point matrices.
-- Runs experiments with varying matrix sizes.
-- Analyzes speedup and how it is affected by matrix size.
-- Explains differences between GPU and CPU implementations.
+- **Floating-Point Matrices:** Supports matrices with floating-point values between [0, 1].
+- **Variable Matrix Sizes:** Runs experiments with varying matrix sizes, from very small (2x2) to large (2048x2048), to observe how performance scales.
+- **Performance Analysis:** Analyzes the speedup achieved by the GPU implementation and how it is affected by matrix size in the analysis pdf.
+- **Comparative Explanation:** Explains how the GPU implementation differs from the CPU-based implementation, including detailed examples and diagrams in the analysis pdf.
+
+#### Implementation Details:
+
+- **CPU Implementation:**
+  - **Algorithm:** Uses a standard triple nested loop algorithm for matrix multiplication.
+  - **Order of Access:** Matrices are stored and accessed in row-major order.
+  - **Time Complexity:** \(O(N^3)\), which becomes significant for large \(N\).
+- **GPU Implementation:**
+  - **Kernel Function (`gpuMatrixMultiply`):** Each thread computes one element of the result matrix.
+  - **Thread Mapping:**
+    - **Global Index Calculation:** Utilizes block and thread indices to compute the global row and column for each thread.
+    - **Edge Case Handling:** Includes bounds checking to prevent out-of-bounds memory access.
+  - **Block and Grid Dimensions:**
+    - **Block Size:** Uses a 32x32 block size to optimize for GPU architecture (total of 1024 threads per block).
+    - **Grid Size:** Calculated based on matrix size and block dimensions to ensure coverage of the entire matrix.
+- **Performance Results:**
+  - Observes that GPU speedup increases with matrix size.
+  - Notes that for small matrices, GPU may be slower due to kernel launch overhead.
+  - Provides detailed a graph of speedup and analysis, included in **Assignment_3_Analysis.pdf**.
+
+#### Running the Program:
+
+1. Navigate to the `Question_4` directory:
+
+```
+bash cd Question_4
+```
+
+2. Compile the program if you make any changes:
+
+```bash
+nvcc MatrixMultiplication.cu -o MatrixMultiplication
+```
+
+3. Run the executable:
+
+```bash
+./MatrixMultiplication
+```
+
+4. Observe the output, which includes:
+
+   - Matrix size.
+   - Average CPU time over multiple runs.
+   - Average GPU time over multiple runs.
+   - Speedup factor.
+   - Verification of correctness for small matrix sizes.
 
 ## Results and Discussion
 
-Each project includes a detailed analysis of the performance improvements achieved through GPU acceleration.
-Excel Graphs and discussions are provided to illustrate the speedup and efficiency of CUDA implementations compared to traditional CPU methods.
+Each project includes a detailed analysis of the performance improvements achieved through GPU acceleration. Graphs and discussions are provided in the **Assignment_3_Analysis.pdf** file to illustrate the speedup and efficiency of CUDA implementations compared to traditional CPU methods.
+
+- **Question 1 Analysis:** Answers to the general questions about parallel computing are included in **Assignment_3_Analysis.pdf**.
+- **Experimental Results:** Includes graphs plotting speedup versus input sizes, and observations on performance trends.
+- **Discussion:** Explores why speedup varies with input size and architectural advantages of GPUs for certain tasks.
