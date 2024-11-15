@@ -21,7 +21,7 @@ This project implements a CUDA program to compute the Euclidean distance between
 - **Initialization:** Host arrays are initialized with random integers within a small range (0 to 99).
 - **Data Transfer:** Uses `cudaMemcpy` to copy host input arrays to the device.
 - **Parallel Execution:** Calls a CUDA kernel that computes the square of the difference of the components for each dimension, performs a parallel reduction to sum these values across each block, sums the partial sums of each block on the CPU, and then finally takes the square root of the sum to compute the Euclidean distance.
-- **Performance Analysis:** Runs experiments using varying sizes of inputs. Graphs and results can be find in the analysis pdf.
+- **Performance Analysis:** Runs experiments using varying sizes of inputs. Graphs and results can be found in the analysis pdf.
 
 ### Dependencies
 
