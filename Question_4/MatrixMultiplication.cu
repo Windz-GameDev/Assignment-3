@@ -91,7 +91,7 @@ __global__ void gpuMatrixMultiply(float *A, float *B, float *C, int size)
         // Keep track of the sum for the dot product
         float sum = 0.0f;
 
-        // Go through each corresponding kth element element in the current row in the A matrix and current column in the B matrix, multiply them, and accumulate their products in a sum.
+        // Go through each corresponding kth element in the current row in the A matrix and current column in the B matrix, multiply them, and accumulate their products in a sum.
         for (int k = 0; k < size; k++)
         {
             sum += A[row * size + k] * B[k * size + col];
